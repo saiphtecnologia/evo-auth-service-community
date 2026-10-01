@@ -9,6 +9,7 @@ class Api::BaseController < ApplicationController
   before_action :authenticate_request!
   before_action :set_current_user
 
+  rescue_from StandardError, with: :handle_internal_error
   rescue_from TokenValidationService::InvalidToken, with: :render_invalid_token
   rescue_from TokenValidationService::ExpiredToken, with: :render_expired_token
   rescue_from TokenValidationService::TokenNotFound, with: :render_token_not_found
@@ -19,7 +20,6 @@ class Api::BaseController < ApplicationController
   rescue_from ActiveRecord::RecordNotUnique, with: :handle_record_not_unique
   rescue_from Pundit::NotAuthorizedError, with: :handle_not_authorized
   rescue_from ActionController::ParameterMissing, with: :handle_parameter_missing
-  rescue_from StandardError, with: :handle_internal_error
   
   private
 

@@ -167,7 +167,6 @@ module AuthHelper
     if refresh_token.blank?
       auth_header = request.headers['Authorization'] || request.headers['authorization']
       Rails.logger.info "AuthHelper: Authorization header present?: #{auth_header.present?}"
-      Rails.logger.info "AuthHelper: Authorization header value (first 30 chars): #{auth_header&.[](0..29)}" if auth_header.present?
       
       if auth_header&.start_with?('Bearer ')
         # Tenta usar o token do header como refresh token (fallback para desenvolvimento com ngrok)
@@ -181,7 +180,6 @@ module AuthHelper
     
     Rails.logger.info "AuthHelper: Refresh token cookie present?: #{cookies[:_evo_rt].present?}"
     Rails.logger.info "AuthHelper: Refresh token from header?: #{refresh_token.present? && cookies[:_evo_rt].blank?}"
-    Rails.logger.info "AuthHelper: Refresh token value (first 20 chars): #{refresh_token&.[](0..19)}" if refresh_token.present?
     
     if refresh_token.blank?
       Rails.logger.warn "AuthHelper: Refresh token not found in cookies or header"
@@ -295,7 +293,7 @@ module AuthHelper
     
     if refresh_token.present?
       # Log para debug
-      Rails.logger.info "AuthHelper: Using refresh token from cookie: #{refresh_token[0..10]}..."
+      Rails.logger.info "AuthHelper: Using refresh token cookie"
       
       token = Doorkeeper::AccessToken.find_by(refresh_token: refresh_token)
       
