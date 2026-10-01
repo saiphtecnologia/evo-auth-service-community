@@ -4,7 +4,7 @@
 
 # Use Ruby 3.4.4 as specified in the project
 ARG RUBY_VERSION=3.4.4
-FROM ruby:$RUBY_VERSION-slim
+FROM ruby:$RUBY_VERSION-slim@sha256:4020c2d289c1266fe4a2ea1d0018c22c17435905c514c66f8437555da57723ad
 
 # Set working directory
 WORKDIR /rails
